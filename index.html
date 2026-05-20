@@ -579,30 +579,6 @@
       if (t < 10) t = 10;
       popup.style.left = l + 'px';
       popup.style.top = t + 'px';
-      const chartScroll = document.getElementById('chartScroll');
-      if (chartScroll && window.matchMedia('(max-width:850px)').matches) {
-        const gutter = 8;
-        const visibleLeft = chartScroll.scrollLeft + gutter;
-        const visibleRight = chartScroll.scrollLeft + chartScroll.clientWidth - gutter;
-        if (l < visibleLeft) chartScroll.scrollLeft = Math.max(0, l - gutter);
-        if (l + popupW > visibleRight) chartScroll.scrollLeft = l + popupW - chartScroll.clientWidth + gutter;
-        const fitOpenPopup = () => {
-          const pr = popup.getBoundingClientRect();
-          const sr = chartScroll.getBoundingClientRect();
-          if (pr.left < sr.left + gutter) chartScroll.scrollLeft -= sr.left + gutter - pr.left;
-          if (pr.right > sr.right - gutter) chartScroll.scrollLeft += pr.right - sr.right + gutter;
-          if (pr.top < sr.top + gutter) chartScroll.scrollTop -= sr.top + gutter - pr.top;
-          if (pr.bottom > sr.bottom - gutter) chartScroll.scrollTop += pr.bottom - sr.bottom + gutter;
-          if (window.matchMedia('(max-width:600px)').matches) {
-            const margin = 12;
-            const updated = popup.getBoundingClientRect();
-            if (updated.top < margin) window.scrollBy({ top: updated.top - margin, behavior:'smooth' });
-            if (updated.bottom > window.innerHeight - margin) window.scrollBy({ top: updated.bottom - window.innerHeight + margin, behavior:'smooth' });
-          }
-        };
-        requestAnimationFrame(fitOpenPopup);
-        window.setTimeout(fitOpenPopup, 220);
-      }
     }
   }
 
