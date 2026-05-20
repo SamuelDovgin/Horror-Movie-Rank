@@ -89,9 +89,9 @@
   .popup-header.hybrid { background:linear-gradient(135deg,rgba(183,125,255,.18),rgba(183,125,255,.04)); border-left:4px solid var(--hybrid); }
   .popup h2 { margin:0 0 3px; font-size:1.05rem; letter-spacing:-.02em; } .popup .muted { color:var(--muted); line-height:1.35; font-size:.84rem; }
   .popup-body { padding:12px 14px 14px; } .popup-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:10px; }
-  .popup-stat { background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.075); border-radius:10px; padding:8px 7px; }
-  .popup-stat b { display:block; font-size:.95rem; } .popup-stat span { color:var(--muted); font-size:.7rem; }
-  .badge { display:inline-flex; margin:0 6px 6px 0; border:1px solid rgba(246,207,104,.62); color:#ffe8a8; border-radius:999px; padding:4px 9px; background:rgba(246,207,104,.08); font-size:.78rem; font-weight:800; }
+  .popup-stat { background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.075); border-radius:10px; padding:8px 7px; min-width:0; }
+  .popup-stat b { display:block; font-size:.95rem; overflow-wrap:anywhere; } .popup-stat span { color:var(--muted); font-size:.7rem; }
+  .badge { display:inline-flex; max-width:100%; margin:0 6px 6px 0; border:1px solid rgba(246,207,104,.62); color:#ffe8a8; border-radius:999px; padding:4px 9px; background:rgba(246,207,104,.08); font-size:.78rem; font-weight:800; white-space:normal; overflow-wrap:anywhere; }
   .lead-badge { border-color:rgba(255,255,255,.42); color:#fff; } .added-badge { border-color:rgba(184,255,158,.6); color:var(--green); background:rgba(184,255,158,.08); }
   .close-popup { position:absolute; right:8px; top:8px; width:26px; height:26px; min-width:44px; min-height:44px; border-radius:999px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.07); color:var(--text); font-size:15px; cursor:pointer; touch-action:manipulation; display:inline-flex; align-items:center; justify-content:center; }
   .empty-state { display:none; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:14px 18px; border-radius:16px; border:1px solid var(--line); background:rgba(13,16,24,.92); color:var(--muted); z-index:50; } .empty-state.show { display:block; }
@@ -113,6 +113,7 @@
     .filter-status { margin-left:0; font-size:.82rem; line-height:1.4; }
     .chart-scroll { border-radius:12px; }
     .chart-scroll::after { content:"Swipe to explore chart →"; display:block; position:sticky; left:0; bottom:0; width:max-content; margin:0; padding:6px 12px 8px; color:var(--muted); font-size:.68rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; pointer-events:none; opacity:.85; }
+    .movie-point { --tap:max(var(--hit),34px); width:var(--tap); height:var(--tap); margin-left:calc(var(--tap) * -.5); margin-top:calc(var(--tap) * -.5); }
     .popup { width:min(360px,calc(100vw - 24px)); }
     .popup-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     .popup-stat b { font-size:.88rem; }
@@ -132,7 +133,8 @@
     .badge { font-size:.74rem; padding:3px 8px; }
   }
   @media (max-width:600px) {
-    .popup.open { position:fixed; left:50% !important; right:auto; top:auto !important; bottom:max(10px,env(safe-area-inset-bottom)); transform:translateX(-50%); max-height:min(58vh,520px); overflow-y:auto; -webkit-overflow-scrolling:touch; z-index:30000; }
+    .popup { width:min(320px,calc(100vw - 72px)); }
+    .popup.open { max-height:min(58vh,520px); overflow-y:auto; -webkit-overflow-scrolling:touch; z-index:30000; }
     .chart-scroll::after { content:"Swipe chart · tap dots for details"; }
   }
 
@@ -164,7 +166,7 @@
     font-size:.86rem;
   }
   .file-btn input { display:none; }
-  .file-btn { min-height:40px; touch-action:manipulation; }
+  .file-btn { min-height:44px; touch-action:manipulation; }
   .exact-badge { border-color:rgba(85,255,204,.55); color:#a8ffe8; background:rgba(85,255,204,.07); }
   .missing-badge { border-color:rgba(255,255,255,.24); color:var(--muted); background:rgba(255,255,255,.04); }
 </style>
@@ -518,7 +520,7 @@
     if (selectedPoint && selectedPoint.classList.contains('hidden')) closePopup();
     updateActiveButtons();
     updateStats(visible);
-    if (selectedPoint && !selectedPoint.classList.contains('hidden')) showPopup(selectedPoint, false);
+    if (selectedPoint && !selectedPoint.classList.contains('hidden')) showPopup(selectedPoint);
   }
 
   function showPopup(btn, reposition = true) {
@@ -567,32 +569,39 @@
     popup.classList.add('open');
 
     if (reposition) {
-      const useSheet = window.matchMedia('(max-width:600px)').matches;
-      if (useSheet) {
-        popup.style.left = '';
-        popup.style.top = '';
-      } else {
-        const x = parseFloat(btn.style.getPropertyValue('--x'));
-        const y = parseFloat(btn.style.getPropertyValue('--y'));
-        const popupW = popup.offsetWidth || 360, popupH = popup.offsetHeight || 300;
-        let l = x + 22, t = y - 28;
-        if (l + popupW > 1320 - 10) l = x - popupW - 22;
-        if (l < 10) l = 10;
-        if (t + popupH > 820 - 10) t = 820 - popupH - 10;
-        if (t < 10) t = 10;
-        popup.style.left = l + 'px';
-        popup.style.top = t + 'px';
-        const chartScroll = document.getElementById('chartScroll');
-        if (chartScroll && window.matchMedia('(max-width:850px)').matches) {
-          requestAnimationFrame(() => {
-            const pr = popup.getBoundingClientRect();
-            const sr = chartScroll.getBoundingClientRect();
-            if (pr.left < sr.left + 8) chartScroll.scrollLeft -= sr.left + 8 - pr.left;
-            if (pr.right > sr.right - 8) chartScroll.scrollLeft += pr.right - sr.right + 8;
-            if (pr.top < sr.top + 8) chartScroll.scrollTop -= sr.top + 8 - pr.top;
-            if (pr.bottom > sr.bottom - 8) chartScroll.scrollTop += pr.bottom - sr.bottom + 8;
-          });
-        }
+      const x = parseFloat(btn.style.getPropertyValue('--x'));
+      const y = parseFloat(btn.style.getPropertyValue('--y'));
+      const popupW = popup.offsetWidth || 360, popupH = popup.offsetHeight || 300;
+      let l = x + 22, t = y - 28;
+      if (l + popupW > 1320 - 10) l = x - popupW - 22;
+      if (l < 10) l = 10;
+      if (t + popupH > 820 - 10) t = 820 - popupH - 10;
+      if (t < 10) t = 10;
+      popup.style.left = l + 'px';
+      popup.style.top = t + 'px';
+      const chartScroll = document.getElementById('chartScroll');
+      if (chartScroll && window.matchMedia('(max-width:850px)').matches) {
+        const gutter = 8;
+        const visibleLeft = chartScroll.scrollLeft + gutter;
+        const visibleRight = chartScroll.scrollLeft + chartScroll.clientWidth - gutter;
+        if (l < visibleLeft) chartScroll.scrollLeft = Math.max(0, l - gutter);
+        if (l + popupW > visibleRight) chartScroll.scrollLeft = l + popupW - chartScroll.clientWidth + gutter;
+        const fitOpenPopup = () => {
+          const pr = popup.getBoundingClientRect();
+          const sr = chartScroll.getBoundingClientRect();
+          if (pr.left < sr.left + gutter) chartScroll.scrollLeft -= sr.left + gutter - pr.left;
+          if (pr.right > sr.right - gutter) chartScroll.scrollLeft += pr.right - sr.right + gutter;
+          if (pr.top < sr.top + gutter) chartScroll.scrollTop -= sr.top + gutter - pr.top;
+          if (pr.bottom > sr.bottom - gutter) chartScroll.scrollTop += pr.bottom - sr.bottom + gutter;
+          if (window.matchMedia('(max-width:600px)').matches) {
+            const margin = 12;
+            const updated = popup.getBoundingClientRect();
+            if (updated.top < margin) window.scrollBy({ top: updated.top - margin, behavior:'smooth' });
+            if (updated.bottom > window.innerHeight - margin) window.scrollBy({ top: updated.bottom - window.innerHeight + margin, behavior:'smooth' });
+          }
+        };
+        requestAnimationFrame(fitOpenPopup);
+        window.setTimeout(fitOpenPopup, 220);
       }
     }
   }
@@ -622,6 +631,10 @@
 
   stage.addEventListener('click', e => {
     if (!e.target.closest('.movie-point') && !e.target.closest('.popup')) closePopup();
+  });
+
+  document.addEventListener('click', e => {
+    if (selectedPoint && !e.target.closest('.movie-point') && !e.target.closest('.popup')) closePopup();
   });
 
   document.addEventListener('keydown', e => {
