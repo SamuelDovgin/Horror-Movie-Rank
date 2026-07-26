@@ -1,11 +1,50 @@
 # Horror & Thriller Chart — Full Movie Data
-**Total: 633 movies** | Horror: 219 | Thriller: 239 | Horror/Thriller: 175
+**Total: 661 movies** | Horror: 232 | Thriller: 239 | Horror/Thriller: 190
 
 Columns: Rank | Title | Year | IMDb | Critics RT | Score | Lead | Language
 
 ---
 
-## Horror (219 films)
+## 2026 release refresh (28 films)
+
+Checked July 25, 2026. The website recalculates every film's overall rank on load; the table below records the new films' ranks at this refresh. For festival-premiere titles dated 2024 or 2025 elsewhere, the chart uses the 2026 U.S. release year so year-range filters reflect when the film became broadly available in this catalog.
+
+| Rank | Title | US release | IMDb | Critics RT | Composite | Type |
+|---:|---|---|---:|---:|---:|---|
+| 20 | Obsession | 2026-05-15 | 7.9 | 94% | 86.9 | Horror/Thriller |
+| 95 | 28 Years Later: The Bone Temple | 2026-01-16 | 7.2 | 91% | 82.0 | Horror/Thriller |
+| 143 | Leviticus | 2026-06-19 | 6.8 | 92% | 80.6 | Horror/Thriller |
+| 157 | Send Help | 2026-01-30 | 6.7 | 92% | 80.1 | Horror/Thriller |
+| 188 | Hokum | 2026-05-01 | 6.7 | 90% | 79.1 | Horror |
+| 203 | Backrooms | 2026-05-29 | 6.9 | 87% | 78.5 | Horror/Thriller |
+| 373 | We Bury the Dead | 2026-01-02 | 5.6 | 87% | 72.3 | Horror/Thriller |
+| 395 | Cold Storage | 2026-02-13 | 6.0 | 81% | 71.0 | Horror |
+| 405 | Ready or Not 2: Here I Come | 2026-04-10 | 6.5 | 75% | 70.3 | Horror/Thriller |
+| 447 | Primate | 2026-01-09 | 5.8 | 77% | 68.0 | Horror |
+| 473 | Undertone | 2026-03-13 | 5.9 | 74% | 66.9 | Horror |
+| 516 | Forbidden Fruits | 2026-03-27 | 5.2 | 75% | 64.1 | Horror |
+| 519 | They Will Kill You | 2026-03-27 | 6.3 | 65% | 64.0 | Horror/Thriller |
+| 523 | Faces of Death | 2026-04-10 | 5.8 | 69% | 63.8 | Horror |
+| 558 | Iron Lung | 2026-01-30 | 5.8 | 59% | 58.5 | Horror/Thriller |
+| 559 | Whistle | 2026-02-06 | 5.2 | 64% | 58.3 | Horror |
+| 565 | Dracula | 2026-02-06 | 6.2 | 54% | 57.8 | Horror |
+| 573 | The Bride! | 2026-03-06 | 5.6 | 57% | 56.5 | Horror |
+| 588 | Lee Cronin's The Mummy | 2026-04-17 | 6.2 | 45% | 53.1 | Horror |
+| 594 | Passenger | 2026-05-22 | 5.5 | 48% | 51.3 | Horror/Thriller |
+| 600 | Night Patrol | 2026-01-16 | 4.4 | 55% | 49.8 | Horror/Thriller |
+| 632 | Scream 7 | 2026-02-27 | 5.5 | 30% | 41.9 | Horror/Thriller |
+| 641 | Scary Movie | 2026-06-05 | 5.2 | 23% | 36.8 | Horror |
+| 650 | The Strangers: Chapter 3 | 2026-02-06 | 4.2 | 18% | 29.4 | Horror |
+| 653 | Return to Silent Hill | 2026-01-23 | 4.0 | 18% | 28.5 | Horror |
+| 655 | Psycho Killer | 2026-02-20 | 4.8 | 9% | 27.5 | Horror/Thriller |
+| 657 | Killer Whale | 2026-02-06 | 3.9 | 16% | 26.9 | Horror/Thriller |
+| 660 | Chum | 2026-06-05 | 2.9 | 15% | 21.6 | Horror/Thriller |
+
+Primary refresh references: [Rotten Tomatoes 2026 horror guide](https://editorial.rottentomatoes.com/guide/best-new-horror-movies-2026/), individual Rotten Tomatoes title pages, and individual IMDb title/ratings pages.
+
+---
+
+## Horror (232 films; 219 in the legacy table below + 13 in the 2026 refresh table above)
 
 | # | Title | Year | IMDb | Critics RT | Best Score | Lead | Language | IMDb ID | Audience RT |
 |---|-------|------|------|------------|------------|------|----------|---------|-------------|
@@ -473,7 +512,7 @@ Columns: Rank | Title | Year | IMDb | Critics RT | Score | Lead | Language
 | 608 | Derailed | 2005 | 6.6 | 21% | 42.6 | male | English | | |
 | 629 | The Canyon | 2009 | 5.8 | 0% | 27.8 | female | English | | |
 
-## Horror/Thriller (175 films)
+## Horror/Thriller (190 films; 175 in the legacy table below + 15 in the 2026 refresh table above)
 
 | # | Title | Year | IMDb | Critics RT | Best Score | Lead | Language | IMDb ID | Audience RT |
 |---|-------|------|------|------------|------------|------|----------|---------|-------------|
