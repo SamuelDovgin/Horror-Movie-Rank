@@ -9,12 +9,13 @@
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Horror Chart" name="apple-mobile-web-app-title"/>
 <meta content="Horror Chart" name="application-name"/>
-<meta content="Explore and filter 660+ horror and thriller films by ratings, year, genre, language, and lead — updated through June 2026." name="description"/>
-<title>Horror Movie Rank — 2005–2026 Interactive Chart</title>
+<meta content="Explore and compare 661 horror and thriller films by IMDb, Rotten Tomatoes, and Metacritic scores with independently selectable chart axes." name="description"/>
+<title>Horror Movie Rank — IMDb, RT &amp; Metacritic Chart</title>
 <link href="favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
 <link href="manifest.webmanifest" rel="manifest"/>
+<script src="site-router.js"></script>
 <style>
   :root {
     --bg:#0d1018; --panel:#151a24; --panel2:#202637; --text:#f4f6ff; --muted:#aeb7ca;
@@ -58,6 +59,11 @@
   .filter-btn.active.male-f { border-color:var(--male); background:rgba(85,167,255,.12); color:#aad5ff; }
   .filter-btn.active.mixed-f { border-color:var(--mixed); background:rgba(183,125,255,.13); color:#d9b8ff; }
   .filter-status { color:var(--muted); font-size:.86rem; margin:2px 0 0 72px; }
+  .axis-control { display:inline-flex; align-items:center; gap:7px; border:1px solid rgba(85,255,204,.24); border-radius:12px; padding:4px 7px 4px 9px; background:rgba(85,255,204,.045); }
+  .axis-control label { color:var(--muted); font-size:.75rem; font-weight:800; white-space:nowrap; }
+  .axis-select { min-height:36px; border:1px solid rgba(85,255,204,.35); border-radius:8px; background:#0d1320; color:var(--text); font:inherit; font-size:.82rem; font-weight:800; padding:5px 26px 5px 8px; }
+  .axis-select:focus { outline:2px solid var(--cyan); outline-offset:2px; }
+  .axis-coverage { color:var(--muted); font-size:.78rem; line-height:1.35; flex:1 1 100%; }
 
   .chart-scroll { width:100%; overflow:auto; border-radius:16px; background:#111622; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; scroll-behavior:smooth; position:relative; }
   .chart-scroll::after { content:""; display:none; }
@@ -112,6 +118,8 @@
     .filter-label { min-width:64px; flex:0 0 64px; padding-top:8px; }
     .filter-btn,.clear-btn { padding:8px 14px; font-size:.82rem; min-height:44px; }
     .filter-status { margin-left:0; font-size:.82rem; line-height:1.4; }
+    .axis-control { flex:1 1 220px; justify-content:space-between; min-height:44px; }
+    .axis-select { min-height:38px; flex:1 1 auto; }
     .chart-scroll { border-radius:12px; }
     .chart-scroll::after { content:"Swipe to explore chart →"; display:block; position:sticky; left:0; bottom:0; width:max-content; margin:0; padding:6px 12px 8px; color:var(--muted); font-size:.68rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; pointer-events:none; opacity:.85; }
     .movie-point { --tap:max(var(--hit),34px); width:var(--tap); height:var(--tap); margin-left:calc(var(--tap) * -.5); margin-top:calc(var(--tap) * -.5); }
@@ -216,9 +224,9 @@
 </head>
 <body>
 <main class="wrap">
-<div class="eyebrow"><span class="update-pill">Updated through June 2026</span><span>Ratings checked July 25, 2026</span></div>
+<div class="eyebrow"><span class="update-pill">Updated through June 2026</span><span>Metacritic matched August 4, 2026</span></div>
 <h1>Horror Movie Rank</h1>
-<p class="sub"><span id="catalogCount">661</span> horror and thriller picks from 2005–2026, plotted by IMDb user rating and Rotten Tomatoes critics score. Search the catalog, set an exact start and end year, combine every filter, then tap any dot—or ranked result—for details and source links.</p>
+<p class="sub"><span id="catalogCount">661</span> horror and thriller picks from 2005–2026. Compare any two of IMDb, Rotten Tomatoes critics, Rotten Tomatoes audience, and Metacritic scores; search the catalog, set an exact year range, combine filters, then tap any dot—or ranked result—for details and source links.</p>
 <section class="stats">
 <div class="stat"><b id="stat-visible">661</b><span>visible movies</span></div>
 <div class="stat"><b id="stat-english">—</b><span>English / English-dominant</span></div>
@@ -266,11 +274,11 @@
 <div class="filter-group"><span class="filter-label">Quality</span>
 <button class="filter-btn active all" data-filter="quality" data-value="all">All scores</button>
 <button class="filter-btn year-f" data-filter="quality" data-value="bestzone">Best-zone only</button>
-<button class="filter-btn year-f" data-filter="quality" data-value="rt80">RT ≥ 80%</button>
+<button class="filter-btn year-f" data-filter="quality" data-value="rt80">Current Y high</button>
 <button class="filter-btn year-f" data-filter="quality" data-value="imdb7">IMDb ≥ 7.0</button>
 <button class="clear-btn" id="clearFilters" type="button">Clear filters</button>
 </div>
-<div class="filter-group"><span class="filter-label">Score</span><button class="filter-btn active all" data-filter="scoreMode" data-value="critic">Critics RT</button><button class="filter-btn year-f" data-filter="scoreMode" data-value="audience" disabled="disabled" title="Import RT CSV first to enable exact audience plotting.">Audience RT</button></div><div aria-live="polite" class="filter-status" id="filterStatus">Showing 661 movies.</div>
+<div class="filter-group"><span class="filter-label">Axes</span><div class="axis-control"><label for="xAxis">X-axis</label><select class="axis-select" id="xAxis"><option value="imdb">IMDb user rating</option><option value="rt-critic">RT critics</option><option value="rt-audience">RT audience</option><option value="metacritic">Metacritic</option></select></div><div class="axis-control"><label for="yAxis">Y-axis</label><select class="axis-select" id="yAxis"><option value="imdb">IMDb user rating</option><option value="rt-critic" selected>RT critics</option><option value="rt-audience">RT audience</option><option value="metacritic">Metacritic</option></select></div><span aria-live="polite" class="axis-coverage" id="axisCoverage"></span></div><div aria-live="polite" class="filter-status" id="filterStatus">Showing 661 movies.</div>
 </div>
 <div class="rt-import-panel" id="rtImportPanel">
 <div>
@@ -324,9 +332,10 @@
 <div class="ranked-head"><div><h2>Ranked results</h2><span id="rankedSummary">Best composite scores among visible movies</span></div><span>Click a row to locate its dot</span></div>
 <div class="ranked-list" id="rankedList"></div>
 </section>
-<p class="note">The chart is current through June 30, 2026. Critics mode uses the Tomatometer values embedded in the chart; the 2026 refresh was cross-checked against <a class="source-link" href="https://editorial.rottentomatoes.com/guide/best-new-horror-movies-2026/" rel="noopener noreferrer" target="_blank">Rotten Tomatoes’ 2026 guide</a> and individual <a class="source-link" href="https://www.imdb.com/" rel="noopener noreferrer" target="_blank">IMDb listings</a> on July 25, 2026. Ratings change over time. Audience RT mode requires an imported Rotten Tomatoes CSV with movie_title, release date/year, audience_rating, audience_count, and preferably tomatometer_count; no IMDb proxy is used.</p>
+<p class="note">Scores are snapshots and change over time. IMDb, Rotten Tomatoes, and Metacritic values are stored per movie; the Metacritic enrichment was matched by title and release year on August 4, 2026. A missing Metacritic score means Metacritic has no published score or no matching page—not a zero. Imported RT CSV data can replace the embedded audience values with exact audience scores and counts.</p>
 </section>
 </main>
+<script src="metacritic-data.js"></script>
 <script>
 (function() {
   const stage = document.getElementById('chartStage');
@@ -343,19 +352,44 @@
   const yearEndInput = document.getElementById('yearEnd');
   const rankedList = document.getElementById('rankedList');
   const chartScroll = document.getElementById('chartScroll');
-  const state = { genre:'all', lang:'all', year:'all', lead:'all', quality:'all', scoreMode:'critic', query:'', startYear:2005, endYear:2026 };
+  const chartSvg = document.querySelector('.chart-svg');
+  const xAxisSelect = document.getElementById('xAxis');
+  const yAxisSelect = document.getElementById('yAxis');
+  const axisCoverage = document.getElementById('axisCoverage');
+  const state = { genre:'all', lang:'all', year:'all', lead:'all', quality:'all', xAxis:'imdb', yAxis:'rt-critic', query:'', startYear:2005, endYear:2026 };
   let selectedPoint = null;
-  let exactAudienceLoaded = false;
 
   const escapeHtml = str => String(str ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
   const typeClass = t => t === 'Horror' ? 'horror' : t === 'Thriller' ? 'thriller' : 'hybrid';
   const leadLabel = b => b === 'female' ? 'Female-led' : b === 'male' ? 'Male-led' : 'Ensemble/mixed';
-  const currentScorePct = d => {
-    if (state.scoreMode === 'audience') return Number(d.audiencePct || NaN);
-    return Number(d.criticPct || parseInt(d.rt, 10) || NaN);
+  const axisDefs = {
+    imdb: { label:'IMDb user rating', short:'IMDb', min:3, max:9.5, step:.5, percent:false, value:d => Number(d.imdb) },
+    'rt-critic': { label:'Rotten Tomatoes critics score', short:'Critics RT', min:0, max:100, step:10, percent:true, value:d => Number(d.criticPct || parseInt(d.rt, 10)) },
+    'rt-audience': { label:'Rotten Tomatoes audience score', short:'Audience RT', min:0, max:100, step:10, percent:true, value:d => Number(d.audiencePct) },
+    metacritic: { label:'Metacritic critic score', short:'Metacritic', min:0, max:100, step:10, percent:true, value:d => Number(d.metacritic) }
   };
-  const currentScoreLabel = () => state.scoreMode === 'audience' ? 'Audience RT' : 'Critics RT';
-  const currentScoreValue = d => state.scoreMode === 'audience' ? (d.rtAudience || '—') : (d.rtCritic || d.rt || '—');
+  const axisValue = (axis, d) => {
+    if (axis === 'metacritic' && !d.metacritic) return null;
+    if (axis === 'rt-audience' && !d.audiencePct) return null;
+    if (axis === 'rt-critic' && !d.criticPct && !d.rt) return null;
+    const n = axisDefs[axis].value(d);
+    return Number.isFinite(n) ? n : null;
+  };
+  const axisFormat = (axis, value) => axisDefs[axis].percent ? `${Math.round(value)}%` : Number(value).toFixed(1);
+  const currentScorePct = d => axisValue(state.yAxis, d);
+  const currentScoreLabel = () => axisDefs[state.yAxis].short;
+  const currentScoreValue = d => {
+    const n = axisValue(state.yAxis, d);
+    return n == null ? '—' : axisFormat(state.yAxis, n);
+  };
+
+  points.forEach(point => {
+    const key = `${point.dataset.title}|${point.dataset.year}`;
+    const meta = (window.METACRITIC_DATA || {})[key] || { score:null, slug:null, status:'not-found' };
+    point.dataset.metacritic = meta.score == null ? '' : String(meta.score);
+    point.dataset.metacriticSlug = meta.slug || '';
+    point.dataset.metacriticStatus = meta.status || 'not-found';
+  });
 
   function rankMovies() {
     const ranked = [...points].sort((a, b) =>
@@ -377,19 +411,58 @@
     });
   }
 
+  function renderAxes() {
+    const x = axisDefs[state.xAxis], y = axisDefs[state.yAxis];
+    const xTicks = [], yTicks = [];
+    for (let v = x.min; v <= x.max + .001; v += x.step) xTicks.push(Number(v.toFixed(2)));
+    for (let v = y.min; v <= y.max + .001; v += y.step) yTicks.push(Number(v.toFixed(2)));
+    const left = 78, right = 1278, top = 72, bottom = 704, width = right - left, height = bottom - top;
+    const xAt = v => left + ((v - x.min) / (x.max - x.min)) * width;
+    const yAt = v => bottom - ((v - y.min) / (y.max - y.min)) * height;
+    const xGrid = xTicks.map(v => `<line class="grid" x1="${xAt(v).toFixed(1)}" x2="${xAt(v).toFixed(1)}" y1="${top}" y2="${bottom}"/><text class="tick" text-anchor="middle" x="${xAt(v).toFixed(1)}" y="738">${axisFormat(state.xAxis, v)}</text>`).join('');
+    const yGrid = yTicks.map(v => `<line class="grid" x1="${left}" x2="${right}" y1="${yAt(v).toFixed(1)}" y2="${yAt(v).toFixed(1)}"/><text class="tick" text-anchor="end" x="64" y="${(yAt(v) + 4).toFixed(1)}">${axisFormat(state.yAxis, v)}</text>`).join('');
+    const xThreshold = state.xAxis === 'imdb' ? `<line class="threshold" x1="${xAt(7).toFixed(1)}" x2="${xAt(7).toFixed(1)}" y1="${top}" y2="${bottom}"/><text class="threshold-label" x="${(xAt(7) + 8).toFixed(1)}" y="90">IMDb 7.0</text>` : '';
+    const yThreshold = axisDefs[state.yAxis].percent ? `<line class="threshold" x1="${left}" x2="${right}" y1="${yAt(90).toFixed(1)}" y2="${yAt(90).toFixed(1)}"/><text class="threshold-label" x="${right - 148}" y="${(yAt(90) - 8).toFixed(1)}">${axisDefs[state.yAxis].short} 90</text>` : '';
+    const zone = state.xAxis === 'imdb' && axisDefs[state.yAxis].percent ? '<text class="zone-label" x="888" y="90">Best-of-genre zone</text>' : '';
+    chartSvg.innerHTML = `<rect fill="#111622" height="820" width="1320" x="0" y="0"></rect>${xGrid}${yGrid}<line class="axis" x1="${left}" x2="${right}" y1="${bottom}" y2="${bottom}"/><line class="axis" x1="${left}" x2="${left}" y1="${top}" y2="${bottom}"/><text class="axis-label" text-anchor="middle" x="660" y="788">${escapeHtml(x.label)}</text><text class="axis-label" text-anchor="middle" transform="rotate(-90 24 410)" x="24" y="410">${escapeHtml(y.label)}</text>${xThreshold}${yThreshold}${zone}`;
+  }
+
+  function setPointPositions() {
+    const left = 78, right = 1278, top = 72, bottom = 704;
+    const x = axisDefs[state.xAxis], y = axisDefs[state.yAxis];
+    points.forEach(point => {
+      const xv = axisValue(state.xAxis, point.dataset), yv = axisValue(state.yAxis, point.dataset);
+      if (xv != null) point.style.setProperty('--x', `${(left + ((xv - x.min) / (x.max - x.min)) * (right - left)).toFixed(1)}px`);
+      if (yv != null) point.style.setProperty('--y', `${(bottom - ((yv - y.min) / (y.max - y.min)) * (bottom - top)).toFixed(1)}px`);
+    });
+  }
+
+  function updateAxisCoverage() {
+    const xCount = points.filter(p => axisValue(state.xAxis, p.dataset) != null).length;
+    const yCount = points.filter(p => axisValue(state.yAxis, p.dataset) != null).length;
+    axisCoverage.textContent = `${xCount}/${points.length} on X · ${yCount}/${points.length} on Y · movies missing either score are hidden`;
+    xAxisSelect.value = state.xAxis;
+    yAxisSelect.value = state.yAxis;
+  }
+
   function restoreStateFromUrl() {
     const params = new URLSearchParams(location.search);
     const allowed = {
       genre:['all','Horror','Thriller','Horror/Thriller'],
       lead:['all','female','male','mixed'],
       lang:['all','english','nonenglish'],
-      quality:['all','bestzone','rt80','imdb7']
+      quality:['all','bestzone','rt80','imdb7'],
+      xAxis:['imdb','rt-critic','rt-audience','metacritic'],
+      yAxis:['imdb','rt-critic','rt-audience','metacritic']
     };
     Object.entries(allowed).forEach(([key, values]) => {
-      const value = params.get(key);
+      const param = key === 'xAxis' ? 'x' : key === 'yAxis' ? 'y' : key;
+      const value = params.get(param);
       if (value && values.includes(value)) state[key] = value;
     });
     state.query = (params.get('q') || '').slice(0, 80);
+    const oldScoreMode = params.get('scoreMode');
+    if (oldScoreMode === 'audience') state.yAxis = 'rt-audience';
     const from = params.has('from') ? Number(params.get('from')) : NaN;
     const to = params.has('to') ? Number(params.get('to')) : NaN;
     if (Number.isInteger(from)) state.startYear = Math.max(2005, Math.min(2026, from));
@@ -399,6 +472,8 @@
     searchInput.value = state.query;
     yearStartInput.value = state.startYear;
     yearEndInput.value = state.endYear;
+    xAxisSelect.value = state.xAxis;
+    yAxisSelect.value = state.yAxis;
   }
 
   function syncUrl() {
@@ -408,6 +483,8 @@
     if (state.lead !== 'all') params.set('lead', state.lead);
     if (state.lang !== 'all') params.set('lang', state.lang);
     if (state.quality !== 'all') params.set('quality', state.quality);
+    if (state.xAxis !== 'imdb') params.set('x', state.xAxis);
+    if (state.yAxis !== 'rt-critic') params.set('y', state.yAxis);
     if (state.startYear !== 2005) params.set('from', state.startYear);
     if (state.endYear !== 2026) params.set('to', state.endYear);
     const query = params.toString();
@@ -564,13 +641,6 @@
       p.dataset.rtSource = 'imported';
     });
 
-    exactAudienceLoaded = withAudience > 0;
-    const audBtn = document.querySelector('[data-filter="scoreMode"][data-value="audience"]');
-    if (audBtn) {
-      audBtn.disabled = !exactAudienceLoaded;
-      audBtn.title = exactAudienceLoaded ? 'Plot using imported exact RT audience scores.' : 'No audience_rating values found in the imported CSV.';
-    }
-
     importStatus.textContent = `Imported ${rows.length.toLocaleString()} rows · matched ${matched} / ${points.length} movies · audience scores ${withAudience} · critic counts ${withCriticCount}.`;
     applyFilters();
   }
@@ -592,23 +662,12 @@
   }
 
   function setPointYForMode() {
-    document.body.classList.toggle('audience-mode', state.scoreMode === 'audience');
-    points.forEach(p => {
-      if (state.scoreMode === 'audience') {
-        if (p.dataset.yAudience) p.style.setProperty('--y', p.dataset.yAudience);
-      } else {
-        const styleText = p.dataset.yCritic || '';
-        const match = styleText.match(/--y:([0-9.]+px)/);
-        const direct = styleText.match(/^([0-9.]+px)$/);
-        if (match) p.style.setProperty('--y', match[1]);
-        else if (direct) p.style.setProperty('--y', direct[1]);
-      }
-    });
+    setPointPositions();
   }
 
   function matches(el) {
     const d = el.dataset;
-    if (state.scoreMode === 'audience' && !d.audiencePct) return false;
+    if (axisValue(state.xAxis, d) == null || axisValue(state.yAxis, d) == null) return false;
 
     const haystack = `${d.title} ${d.subgenre} ${d.language} ${d.type}`.toLowerCase();
     const queryOK = !state.query || state.query.toLowerCase().trim().split(/\s+/).every(term => haystack.includes(term));
@@ -621,8 +680,8 @@
     const imdb = Number(d.imdb);
     const qualityOK =
       state.quality === 'all' ||
-      (state.quality === 'bestzone' && imdb >= 7 && score >= 90) ||
-      (state.quality === 'rt80' && score >= 80) ||
+      (state.quality === 'bestzone' && imdb >= 7 && score >= (axisDefs[state.yAxis].percent ? 90 : 7)) ||
+      (state.quality === 'rt80' && score >= (axisDefs[state.yAxis].percent ? 80 : 7.5)) ||
       (state.quality === 'imdb7' && imdb >= 7);
     return queryOK && genreOK && langOK && yearOK && leadOK && qualityOK;
   }
@@ -644,7 +703,8 @@
     const n = visible.length;
     const english = visible.filter(p => p.dataset.english === 'yes').length;
     const avg = n ? visible.reduce((sum, p) => sum + Number(p.dataset.score), 0) / n : 0;
-    const zone = visible.filter(p => Number(p.dataset.imdb) >= 7 && currentScorePct(p.dataset) >= 90).length;
+    const zoneThreshold = axisDefs[state.yAxis].percent ? 90 : 7;
+    const zone = visible.filter(p => Number(p.dataset.imdb) >= 7 && currentScorePct(p.dataset) >= zoneThreshold).length;
     const f = visible.filter(p => p.dataset.leadbucket === 'female').length;
     const m = visible.filter(p => p.dataset.leadbucket === 'male').length;
     const mix = visible.filter(p => p.dataset.leadbucket === 'mixed').length;
@@ -662,8 +722,8 @@
     if (state.lead !== 'all') parts.push(leadLabel(state.lead));
     if (state.lang !== 'all') parts.push(state.lang === 'english' ? 'English only' : 'Non-English only');
     parts.push(state.startYear === state.endYear ? String(state.startYear) : `${state.startYear}–${state.endYear}`);
-    if (state.quality !== 'all') parts.push(state.quality === 'bestzone' ? 'best-zone' : state.quality === 'rt80' ? `${currentScoreLabel()} ≥ 80%` : 'IMDb ≥ 7.0');
-    parts.push(`Y-axis: ${currentScoreLabel()}`);
+    if (state.quality !== 'all') parts.push(state.quality === 'bestzone' ? 'best-zone' : state.quality === 'rt80' ? `${currentScoreLabel()} high` : 'IMDb ≥ 7.0');
+    parts.push(`X: ${axisDefs[state.xAxis].short} · Y: ${axisDefs[state.yAxis].short}`);
 
     document.getElementById('filterStatus').textContent = `Showing ${n} of ${points.length} movies · ${parts.join(' · ')}.`;
     emptyState.classList.toggle('show', n === 0);
@@ -679,14 +739,15 @@
       return `<button class="ranked-item" data-slug="${escapeHtml(d.slug)}" type="button">
         <span class="rank-number">#${escapeHtml(d.rank)}</span>
         <span><span class="rank-title">${escapeHtml(d.title)}</span><span class="rank-meta">${escapeHtml(d.year)} · ${escapeHtml(d.type)} · ${escapeHtml(d.subgenre)}</span></span>
-        <span class="rank-scores"><span class="mini-score">IMDb<br>${escapeHtml(d.imdb)}</span><span class="mini-score">RT<br>${escapeHtml(d.rtCritic || d.rt)}</span></span>
+        <span class="rank-scores"><span class="mini-score">IMDb<br>${escapeHtml(d.imdb)}</span><span class="mini-score">RT<br>${escapeHtml(d.rtCritic || d.rt)}</span><span class="mini-score">MC<br>${escapeHtml(d.metacritic || '—')}</span></span>
       </button>`;
     }).join('');
   }
 
   function applyFilters() {
-    if (state.scoreMode === 'audience' && !exactAudienceLoaded) state.scoreMode = 'critic';
-    setPointYForMode();
+    renderAxes();
+    setPointPositions();
+    updateAxisCoverage();
     const visible = [];
     points.forEach(p => {
       const show = matches(p);
@@ -721,18 +782,26 @@
       : d.source === 'june-2026-refresh'
         ? '<span class="badge fresh-badge">Ratings checked July 25, 2026</span>'
         : '<span class="badge missing-badge">No imported RT audience/count match yet</span>';
+    const metacriticBadge = d.metacriticStatus === 'scored'
+      ? '<span class="badge exact-badge">Metacritic score matched</span>'
+      : d.metacriticStatus === 'no-score'
+        ? '<span class="badge missing-badge">Metacritic page, no score published</span>'
+        : '<span class="badge missing-badge">Metacritic score unavailable</span>';
 
     const imdbUrl = d.imdbId
       ? `https://www.imdb.com/title/${escapeHtml(d.imdbId)}/`
       : `https://www.imdb.com/find/?q=${encodeURIComponent(d.title + ' ' + d.year)}&s=tt&ttype=ft`;
     const rtUrl = d.rtUrl || `https://www.rottentomatoes.com/search?search=${encodeURIComponent(d.title + ' ' + d.year)}`;
+    const metacriticUrl = d.metacriticSlug
+      ? `https://www.metacritic.com/movie/${encodeURIComponent(d.metacriticSlug)}/`
+      : `https://www.metacritic.com/search/movie/?search=${encodeURIComponent(d.title)}`;
     const releaseLabel = d.releaseDate
       ? new Date(d.releaseDate + 'T12:00:00').toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' })
       : d.year;
     popupContent.innerHTML =
       `<h2><a href="${imdbUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(246,207,104,.5);">${escapeHtml(d.title)}</a> <span class="muted">(${escapeHtml(d.year)})</span></h2>` +
       `<div class="muted">#${escapeHtml(d.rank)} · ${escapeHtml(d.type)} · ${escapeHtml(d.subgenre)}</div>` +
-      `<div class="source-links"><a class="source-link" href="${imdbUrl}" target="_blank" rel="noopener noreferrer">IMDb ↗</a><a class="source-link" href="${escapeHtml(rtUrl)}" target="_blank" rel="noopener noreferrer">Rotten Tomatoes ↗</a></div>`;
+      `<div class="source-links"><a class="source-link" href="${imdbUrl}" target="_blank" rel="noopener noreferrer">IMDb ↗</a><a class="source-link" href="${escapeHtml(rtUrl)}" target="_blank" rel="noopener noreferrer">Rotten Tomatoes ↗</a><a class="source-link" href="${escapeHtml(metacriticUrl)}" target="_blank" rel="noopener noreferrer">Metacritic ↗</a></div>`;
 
     const audienceBlock = d.audiencePct
       ? `<div class="popup-stat"><b>${escapeHtml(d.rtAudience)}</b><span>Audience RT</span></div>
@@ -746,13 +815,14 @@
         <div class="popup-stat"><b>${escapeHtml(d.rtCritic || d.rt)}</b><span>Critics RT</span></div>
         <div class="popup-stat"><b>${escapeHtml(d.criticCount || '—')}</b><span>Critic reviews</span></div>
         ${audienceBlock}
+        <div class="popup-stat"><b>${escapeHtml(d.metacritic || '—')}</b><span>Metacritic</span></div>
         <div class="popup-stat"><b>${escapeHtml(currentScoreValue(d))}</b><span>Current Y-axis</span></div>
         <div class="popup-stat"><b>${escapeHtml(d.score)}</b><span>Best score</span></div>
         <div class="popup-stat"><b>${escapeHtml(releaseLabel)}</b><span>US release</span></div>
         <div class="popup-stat"><b>${escapeHtml(d.lead)}</b><span>Lead tag</span></div>
         <div class="popup-stat"><b>${escapeHtml(d.language)}</b><span>Language</span></div>
       </div>
-      ${leadBadge}${englishBadge}${addedBadge}${exactBadge}`;
+      ${leadBadge}${englishBadge}${addedBadge}${exactBadge}${metacriticBadge}`;
 
     popup.classList.add('open');
 
@@ -785,6 +855,15 @@
 
   searchInput.addEventListener('input', () => {
     state.query = searchInput.value.trimStart().slice(0, 80);
+    applyFilters();
+  });
+
+  xAxisSelect.addEventListener('change', () => {
+    state.xAxis = xAxisSelect.value;
+    applyFilters();
+  });
+  yAxisSelect.addEventListener('change', () => {
+    state.yAxis = yAxisSelect.value;
     applyFilters();
   });
 
@@ -838,7 +917,7 @@
   });
 
   document.getElementById('clearFilters').addEventListener('click', () => {
-    Object.assign(state, { genre:'all', lang:'all', year:'all', lead:'all', quality:'all', scoreMode:'critic', query:'', startYear:2005, endYear:2026 });
+    Object.assign(state, { genre:'all', lang:'all', year:'all', lead:'all', quality:'all', xAxis:'imdb', yAxis:'rt-critic', query:'', startYear:2005, endYear:2026 });
     searchInput.value = '';
     yearStartInput.value = 2005;
     yearEndInput.value = 2026;

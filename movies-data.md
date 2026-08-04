@@ -3,6 +3,8 @@
 
 Columns: Rank | Title | Year | IMDb | Critics RT | Score | Lead | Language
 
+Metacritic enrichment: `metacritic-data.js` contains the August 4, 2026 title/year match for all 661 catalog entries. It records 608 critic scores, 16 Metacritic pages without a published score, and 37 titles with no matching Metacritic page. The chart excludes a movie only when a selected axis lacks that movie's score; missing values are never treated as zero.
+
 ---
 
 ## 2026 release refresh (28 films)
