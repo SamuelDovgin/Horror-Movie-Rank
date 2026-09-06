@@ -1,0 +1,202 @@
+[
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-2000s-horror-movies/",
+    "candidates": 102,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-2010s-horror-movies/",
+    "candidates": 105,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2020s/",
+    "candidates": 104,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-new-horror-movies/",
+    "candidates": 59,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-korean-horror-movies/",
+    "candidates": 28,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-japanese-horror-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-spanish-language-horror-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-french-horror-movies/",
+    "candidates": 34,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-italian-horror-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-of-all-time/",
+    "candidates": 201,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-found-footage-horror-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-zombie-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-vampire-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-slasher-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2015/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2016/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2017/",
+    "candidates": 0,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2018/",
+    "candidates": 0,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2019/",
+    "candidates": 3,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2020/",
+    "candidates": 0,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2021/",
+    "candidates": 0,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2022/",
+    "candidates": 10,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2023/",
+    "candidates": 92,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2024/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2025/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-horror-movies-2026/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2020/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2021/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2022/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2023/",
+    "candidates": 10,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2024/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2025/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-mystery-thriller-movies-2026/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-found-footage-movies/",
+    "candidates": 102,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/essential-slasher-movies/",
+    "candidates": 101,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-spanish-language-horror-movies-ranked-by-tomatometer/",
+    "candidates": 70,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/all-blumhouse-horror-movies-ranked/",
+    "candidates": 108,
+    "error": null
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-zombie-movies-of-all-time/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://editorial.rottentomatoes.com/guide/best-vampire-movies-of-all-time/",
+    "candidates": 0,
+    "error": "HTTP Error 404: Not Found"
+  }
+]
